@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA1 Proyecto 2 2S 2024</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="./dist/tytus.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>IA1 Proyecto 2</h1>
+        <h3>Pure Javascript Machine Learning Library</h3><br>
+        <label for="algoritmo">Selecione el algoritmo:</label>
+        <select id="algoritmo" name="algoritmo">
+            <option value="lineal">Regresión Lineal</option>
+            <option value="polinomial">Regresión Polinomial</option>
+            <option value="decision">Decision tree</option>
+        </select><br><br>
+    </header>
+    <main>
+        <section id="lineal" style="display: block;">
+            <h2>Regresión Lineal</h2>
+            <p>Sección para Regresión Lineal</p>
+            <div id="formLineal">
+                <label for="csvFile">Archivo CSV</label>
+                <input type="file" id="csvFile1" name="csvFile" accept=".csv" required>
+                <button type="button" id="linearBtn">Predecir</button>
+            </div>
+        </section>
+        <section id="linealSection" style="display: none;">
+            <p id="linealOutput"></p>
+            <button type="button" id="drawChartLinear">Graficar</button><br><br>
+            <div id="linealGraph" style="display: none; width: 1400px; height: 500px;"></div>
+            <br>
+            <button type="button" id="showLinearData">Mostrar patron</button><br><br>
+            <button type="button" id="showLinearPredictData">Mostrar tendencia</button><br>
+            <div class="container" style="margin-left: 10%;">
+                <div class="row">
+                    <div class="col" style="align-content: center;">
+                        <div id="linearData" style="display: none; align-content: center;" class="shadow-lg p-3 mb-5 bg-white rounded">
+                            <table id="tablaLinear1" class="table table-Primary" style="height: 1%; overflow: auto;">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div id="linearPredictData" style="display: none; align-content: center;" class="shadow-lg p-3 mb-5 bg-white rounded">
+                            <table id="tablaLinear2" class="table table-Primary" style="height: 1%; overflow: auto;">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="polinomial" style="display: none;">
+            <h2>Regresión Polinomial</h2>
+            <p>Sección para Regresión Polinomial</p>
+            <label for="grado">Grado del polinomio</label>
+            <input type="number" id="grado" name="grado" min="2" max="5" value="2" required>
+            <label for="csvFile">Archivo CSV</label>
+            <input type="file" id="csvFile2" name="csvFile" accept=".csv" required>
+            <button type="button" id="polinomialBtn">Predecir</button>
+        </section>
+        <section id="polinomialSection" style="display: none;">
+            <p id="polinomialOutput"></p>
+            <button type="button" id="drawChartPolynomial">Graficar</button><br><br>
+            <div id="polinomialGraph" style="display: none; width: 1400px; height: 500px;"></div>
+            <br>
+            <button type="button" id="showPolynomialData">Mostrar patron</button><br><br>
+            <button type="button" id="showPolynomialPredictData">Mostrar tendencia</button><br>
+            <div class="container" style="margin-left: 10%;">
+                <div class="row">
+                    <div class="col" style="align-content: center;">
+                        <div id="polynomialData" style="display: none; align-content: center;" class="shadow-lg p-3 mb-5 bg-white rounded">
+                            <table id="tablaPolynomial1" class="table table-Primary" style="height: 1%; overflow: auto;">
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div id="polynomialPredictData" style="display: none; align-content: center;" class="shadow-lg p-3 mb-5 bg-white rounded">
+                            <table id="tablaPolynomial2" class="table table-Primary" style="height: 1%; overflow: auto;">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="decision" style="display: none;">
+            <h2>Decision tree</h2>
+            <p>Sección para Decision tree</p>
+            <label for="csvFile">Archivo CSV</label>
+            <input type="file" id="csvFile3" name="csvFile" accept=".csv" required>
+            <button type="button" id="decisionBtn">Entrenar</button>
+        </section>
+        <section id="decisionSection" style="display: none;">
+            <label>Header</label>
+            <br>
+            <input style="width: 80%;" id="headerText" type="text" placeholder="Insert header" value=""> 
+            <br><br>
+            <label>Training example</label>
+            <br>
+            <textarea style="width: 80%;" id="trainingData" rows="10" placeholder="Insert training data"></textarea>
+            <br>
+            <button id="generateTree">Mostrar patron del arbol</button>
+            <br><br>
+            <label>Predict</label>
+            <br>
+            <input style="width: 80%;" id="exampleData" type="text" placeholder="Training data" value="">
+            <br><br>
+            <button id="predictTree">Predecir</button>
+            <br><br>
+            <p id="prediction" style="font-size: 20px;"></p>
+            <br>
+            <p id="decisionOutput"></p>
+            <br>
+            <div id="decisionGraph" style="display: none; width: 1400px; height: 500px; border: 2px solid rgb(96, 160, 255); border-radius: 10px;"></div>
+        </section>
+        <section id="naive" style="display: none;">
+            <h2>Naive Bayes</h2>
+            <p>Sección para Naive Bayes</p>
+        </section>
+        <section id="neuronal" style="display: none;">
+            <h2>Neuronal network</h2>
+            <p>Sección para Neuronal network</p>
+        </section>
+        <section id="kmeans" style="display: none;">
+            <h2>Kmeans</h2>
+            <p>Sección para Kmeans</p>
+        </section>
+        <section id="knearest" style="display: none;">
+            <h2>K-Nearest Neighbor</h2> 
+            <p>Sección para K-Nearest Neighbor</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024</p>
+    </footer>
+    <script>
+        function joinArraysP(){
+            //TITULOX, VALORESX, TITULOY, VALORESY, VALORESYPREDICT
+            var a = [];
+            var b = [];
+            b.push(arguments[0]);
+            b.push(arguments[2]);
+            var grade = parseInt(document.getElementById('grado').value);
+            for (var n = 2; n <= grade; n++) {
+                b.push('y'+n);
+            }
+            a.push(b);
+            var valoresPredict = arguments[4];
+            for (var i = 0; i < arguments[1].length; i++) {
+                var c = [];
+                c.push(arguments[1][i], arguments[3][i]);
+                for (var j = 0; j < valoresPredict.length; j++) {
+                    c.push(valoresPredict[j][i]);
+                }
+                a.push(c);
+            }
+            return a;
+        }
+
+        function parseCSV(text) {
+        // Obtenemos las lineas del texto
+        let lines = text.replace(/\r/g, '').split('\n');
+        return lines.map(line => {
+            // Por cada linea obtenemos los valores
+            let values = line.split(',');
+            return values;
+        });
+        }
+        
+        function valoresLinear(valoresX, valoresY, values){
+            let output = [];
+            values.forEach((value, row) => {
+                valoresX.push(parseFloat(value[0]));
+                valoresY.push(parseFloat(value[1]));
+            });
+        }
+
+        const algoritmo = document.getElementById('algoritmo');
+        algoritmo.addEventListener('change', () => {
+            const algoritmoSeleccionado = algoritmo.value;
+            //OCULTAR TODAS LAS SECCIONES Y MOSTRAR SOLO LA SELECCIONADA
+            let secciones = document.querySelectorAll('section');
+            secciones.forEach(seccion => {
+                seccion.style.display = 'none';
+            });
+            let seccionSeleccionada = document.getElementById(algoritmoSeleccionado);
+            seccionSeleccionada.style.display = 'block';
+            console.log(algoritmoSeleccionado);
+        });
+
+        //MOSTRAR GRAFICA LINEAL
+        const drawChartLinearBtn = document.getElementById('drawChartLinear');
+        drawChartLinearBtn.addEventListener('click', () => {
+            var linealGraph = document.getElementById('linealGraph');
+            linealGraph.style.display = 'block';
+            google.charts.load('current', {'packages':['corechart']});  
+            google.charts.setOnLoadCallback(drawChartLinear);
+        });
+
+        var a = [];
+        //ACCIONES PARA GRAFICAR REGRESION LINEAL
+        function drawChartLinear() {
+            if(a){
+                var data = google.visualization.arrayToDataTable(a);
+                var options = {
+                    seriesType : 'scatter',
+                    series: {1: {type: 'line'}}
+                };  
+                var chart = new google.visualization.ComboChart(document.getElementById('linealGraph'));
+                chart.draw(data, options);
+            }
+            else{
+                console.log('No hay datos para graficar');
+            }
+                     
+        }
+
+        //ACCIONES PARA GRAFICAR REGRESION POLINOMIAL
+        function drawChartPolynomial() {
+            if(a){
+                var seriesOp = {};
+                var grado = parseInt(document.getElementById('grado').value);
+                for (var i = 1; i <= grado; i++) {
+                    seriesOp[i] = {type: 'line'};
+                }
+                
+                var data = google.visualization.arrayToDataTable(a);
+                /*var options = {
+                    seriesType : 'scatter',
+                    series: {1: {type: 'line'}}
+                };  */
+                var options = {
+                    seriesType : 'scatter',
+                    series: seriesOp
+                };
+                var chart = new google.visualization.ComboChart(document.getElementById('polinomialGraph'));
+                chart.draw(data, options);
+            }
+            else{
+                console.log('No hay datos para graficar');
+            }
+                     
+        }
+
+        //ACCIONES PARA EL ALGORITMO DE REGRESION LINEAL
+        const linearBtn = document.getElementById('linearBtn');
+        linearBtn.addEventListener('click', () => {
+            const csvFile = document.getElementById('csvFile1').files[0];
+            console.log(csvFile.name);
+            let reader = new FileReader();
+            var valoresX = [];
+            var valoresY = [];
+            
+            reader.onloadend = function(e) {
+                let text = e.target.result;
+                var values = parseCSV(text);
+                valores = values;
+                //console.log(values);
+                //valoresLinear(valoresX, valoresY, values);
+                values.forEach((value, row) => {
+                    valoresX.push(parseFloat(value[0]));
+                    valoresY.push(parseFloat(value[1]));
+                });
+                console.log(valoresX[0], valoresY[0]);
+
+                var linear = new LinearRegression();
+                linear.fit(valoresX, valoresY);
+                yPredict = linear.predict(valoresX);
+                var outputTag = document.getElementById('linealOutput');
+                outputTag.innerHTML = '<br>X = ' + valoresX.toString() + '<br>Y = ' + valoresY.toString() + '<br>YPredict = ' + yPredict.toString();
+                var outputArea = document.getElementById('linealSection');
+                outputArea.style.display = 'block';
+                a = joinArrays('x',valoresX,'yTrain',valoresY,'yPredict',yPredict)
+            };
+            
+            reader.readAsText(csvFile);
+            //GRAFICAR
+            google.charts.load('current', {'packages':['corechart']});  
+            google.charts.setOnLoadCallback(drawChartLinear);
+        });
+
+        //MOSTRAR PATRON LINEAR
+        const showLinearData = document.getElementById('showLinearData');
+        showLinearData.addEventListener('click', () => {
+            var linearData = document.getElementById('linearData');
+            linearData.style.display = 'block';
+            var valores = a;
+            let content = `<thead>
+                                <tr>
+                                    <th scope=\"col\">valor</th>
+                                    <th scope=\"col\">X</th>
+                                    <th scope=\"col\">Y</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+            for (var i = 1; i < valores.length; i++) {
+                content += "  <tr><th scope=\"row\">" + (i-1) + "</th> <td> " + valores[i][0] + " </td> <td> " + valores[i][1] + "</td></tr>";
+            }
+            content += " </tbody>";
+            var outputTag = document.getElementById('tablaLinear1');
+            outputTag.innerHTML = content;
+        });
+
+        //MOSTRAR TENDENCIA LINEAR
+        const showLinearPredictData = document.getElementById('showLinearPredictData');
+        showLinearPredictData.addEventListener('click', () => {
+            var linearPredictData = document.getElementById('linearPredictData');
+            linearPredictData.style.display = 'block';
+            var valores = a;
+            let content = `<thead>
+                                <tr>
+                                    <th scope=\"col\">valor</th>
+                                    <th scope=\"col\">X</th>
+                                    <th scope=\"col\">Y</th>
+                                    <th scope=\"col\">YPredict</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+            for (var i = 1; i < valores.length; i++) {
+                content += "  <tr><th scope=\"row\">" + (i-1) + "</th> <td> " + valores[i][0] + " </td> <td> " + valores[i][1] + " </td> <td> " + valores[i][2] +"</td></tr>";
+            }
+            content += " </tbody>";
+            var outputTag = document.getElementById('tablaLinear2');
+            outputTag.innerHTML = content;
+        });
+
+        //ACCIONES PARA EL ALGORITMO DE REGRESION POLINOMIAL
+        const polinomialBtn = document.getElementById('polinomialBtn');
+        polinomialBtn.addEventListener('click', () => {
+            const csvFile = document.getElementById('csvFile2').files[0];
+            const grado = document.getElementById('grado').value;
+            console.log(grado, csvFile.name);
+            let reader = new FileReader();
+            var valoresX = [];
+            var valoresY = [];
+            var predictArray = [];
+            var gradoPolinomial = parseInt(grado);
+            var errores = [];               //GUARDA LOS ERRORES DE CADA ITERACION
+            var valoresPolinomiales = [];   //GUARDA LOS VALORES DE Y PREDICHOS
+            
+            reader.onloadend = function(e) {
+                let text = e.target.result;
+                var values = parseCSV(text);
+                valores = values;
+                //console.log(values);
+                //valoresLinear(valoresX, valoresY, values);
+                values.forEach((value, row) => {
+                    valoresX.push(parseFloat(value[0]));
+                    valoresY.push(parseFloat(value[1]));
+                    predictArray.push(parseFloat(value[0]));
+                });
+                console.log(valoresX[0], valoresY[0]);
+                var outputTag = document.getElementById('polinomialOutput');
+                outputTag.innerHTML = '<br>X = ' + valoresX.toString() + '<br>Y = ' + valoresY.toString();
+                
+                var polinomial = new PolynomialRegression();
+                for (var referencia = 2; referencia <= gradoPolinomial; referencia++) {
+                    
+                    polinomial.fit(valoresX, valoresY, referencia);
+                    yPredict = polinomial.predict(predictArray);
+                    errores.push(polinomial.getError());
+                    valoresPolinomiales.push(yPredict);
+                    outputTag.innerHTML += '<br>Y'+ referencia + ' = ' + yPredict.toString() + '<br>R2 = ' + polinomial.getError();
+                }
+                
+                var outputArea = document.getElementById('polinomialSection');
+                outputArea.style.display = 'block';
+                
+                a = joinArraysP('X', valoresX, 'yTrain', valoresY, valoresPolinomiales);
+            };
+            
+            reader.readAsText(csvFile);
+            //GRAFICAR
+            google.charts.load('current', {'packages':['corechart']});  
+            google.charts.setOnLoadCallback(drawChartPolynomial);
+        });
+        
+        //MOSTRAR GRAFICA POLINOMIAL
+        const drawChartPolynomialBtn = document.getElementById('drawChartPolynomial');
+        drawChartPolynomialBtn.addEventListener('click', () => {
+            var polinomialGraph = document.getElementById('polinomialGraph');
+            polinomialGraph.style.display = 'block';
+            google.charts.load('current', {'packages':['corechart']});  
+            google.charts.setOnLoadCallback(drawChartPolynomial);
+        });
+
+        //MOSTRAR PATRON POLINOMIAL
+        const showPolynomialDataBtn = document.getElementById("showPolynomialData");
+        showPolynomialDataBtn.addEventListener('click', () => {
+            var linearData = document.getElementById('polynomialData');
+            linearData.style.display = 'block';
+            var valores = a;
+            let content = `<thead>
+                                <tr>
+                                    <th scope=\"col\">valor</th>
+                                    <th scope=\"col\">X</th>
+                                    <th scope=\"col\">Y1</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+            for (var i = 1; i < valores.length; i++) {
+                content += "  <tr><th scope=\"row\">" + (i-1) + "</th> <td> " + valores[i][0] + " </td> <td> " + valores[i][1] + "</td></tr>";
+            }
+            content += " </tbody>";
+            var outputTag = document.getElementById('tablaPolynomial1');
+            outputTag.innerHTML = content;
+        });
+
+        //MOSTRAR TENDENCIA POLINOMIAL
+        const showPolynomialPredictDataBtn = document.getElementById("showPolynomialPredictData");
+        showPolynomialPredictDataBtn.addEventListener('click', () => {
+            var linearPredictData = document.getElementById('polynomialPredictData');
+            linearPredictData.style.display = 'block';
+            var valores = a;
+            var dimensiones = valores[0].length - 1;
+            var encabezadosY = "";
+            for (var i = 1; i <= dimensiones; i++) {
+                encabezadosY += "<th scope=\"col\">Y" + i + "</th>";
+            }
+            let content = `<thead>
+                                <tr>
+                                    <th scope=\"col\">valor</th>
+                                    <th scope=\"col\">X</th>
+                                    ` + encabezadosY + `
+                                </tr>
+                            </thead>
+                            <tbody>`;
+            for (var i = 1; i < valores.length; i++) {
+                var valoresY = "";
+                for (var j = 0; j < valores[i].length; j++) {
+                    valoresY += "<td>" + valores[i][j] + "</td>";
+                }
+                content += "  <tr><th scope=\"row\">" + (i-1) + "</th>" + valoresY +"</tr>";
+            }
+            content += " </tbody>";
+            var outputTag = document.getElementById('tablaPolynomial2');
+            outputTag.innerHTML = content;
+        });
+
+        //ACCIONES PARA EL ALGORITMO DE DECISION TREE
+        const decisionBtn = document.getElementById('decisionBtn');
+        var predictArray = [];
+        var valores = [];
+        decisionBtn.addEventListener('click', () => {
+            const csvFile = document.getElementById('csvFile3').files[0];
+            console.log(csvFile.name);
+            let reader = new FileReader();
+            
+            reader.onloadend = function(e) {
+                let text = e.target.result;
+                var values = parseCSV(text);
+                valores = values;
+                //console.log(values);
+                //OBTENER HEADER
+                var headerFile = valores.shift();
+                var headerText = headerFile.toString();
+                var header = document.getElementById('headerText');
+                header.value = headerText;
+                //OBTENER TRAINING DATA
+                var trainingData = "";
+                for (var i = 0; i < valores.length; i++) {
+                    if (i == valores.length - 1) {
+                        trainingData += valores[i].toString();
+                    } else {
+                        trainingData += valores[i].toString() + '\n';
+                    }
+                }
+                var training = document.getElementById('trainingData');
+                training.value = trainingData;
+                //COLOCAR VALORES DE EJEMPLO PARA LA PREDICCION
+                var predictExample = "";
+                for (var i = 0; i < headerFile.length; i++) {
+                    var valueTemp = valores[Math.floor(Math.random() * valores.length)][i];
+                    predictExample += valueTemp;
+                    if(i < headerFile.length - 1){
+                        predictExample += ',';
+                    }
+                }
+                var example = document.getElementById('exampleData');
+                example.value = predictExample;
+
+                //MOSTRAR EL AREA DE DECISION TREE
+                var decisionArea = document.getElementById('decisionSection');
+                decisionArea.style.display = 'block';
+
+            };
+            
+            reader.readAsText(csvFile);
+            //GRAFICAR
+        });
+
+        //ACCIONES PARA GENERAR EL ARBOL DE DECISION
+        testWithChart = () => {
+            var header = document.getElementById('headerText').value;
+            var arrHeader = header.split(",")
+            var training = document.getElementById('trainingData').value;
+            var arrTraining = training.split("\n")
+            var arrData = [arrHeader]
+            for (var i = 0; i < arrTraining.length; i++) {
+                arrData.push(arrTraining[i].split(","))
+            }
+            //class="display-6 text-center mb-5" 
+            let dtSt = arrData
+
+            let dTree = new DecisionTreeID3(dtSt);
+            let root = dTree.train(dTree.dataset);
+            var pred = document.getElementById('exampleData').value;
+            var arrPred = pred.split(",")
+            var predHeader = []
+            for(var i = 0; i<arrHeader.length-1;i++){
+                predHeader.push(arrHeader[i])
+            }
+            let predict = pred != "" ? dTree.predict([predHeader,arrPred], root) : null;
+            return {
+                dotStr: dTree.generateDotString(root),
+                predictNode: predict
+            };
+        }
+
+        //ACCIONES AL DAR CLIC EN EL BOTON DE GENERAR ARBOL
+        const generateTree = document.getElementById('generateTree');
+        generateTree.addEventListener('click', () => {
+            var chart = document.getElementById('decisionGraph');
+            chart.style.display = 'block';
+            var {
+                dotStr,
+                predictNode
+            } = testWithChart()
+            if (predictNode != null) {
+                var header = document.getElementById('headerText').value;
+                var arrHeader = header.split(",")
+                document.getElementById('prediction').innerText = arrHeader[arrHeader.length-1] + ": " + predictNode.value
+            } else {
+                document.getElementById('prediction').innerText = ""
+            }
+            var parsDot = vis.network.convertDot(dotStr);
+            var data = {
+                nodes: parsDot.nodes,
+                edges: parsDot.edges
+            }
+            var options = {
+                layout: {
+                    hierarchical: {
+                        levelSeparation: 100,
+                        nodeSpacing: 100,
+                        parentCentralization: true,
+                        direction: 'UD', // UD, DU, LR, RL
+                        sortMethod: 'directed', // hubsize, directed
+                        //shakeTowards: 'roots' // roots, leaves                        
+                    },
+                },
+            };
+            var network = new vis.Network(chart, data, options);
+        });
+
+        //ACCIONES AL DAR CLIC EN EL BOTON DE PREDICCION
+        const predictTree = document.getElementById('predictTree');
+        predictTree.addEventListener('click', () => {
+            var {
+                dotStr,
+                predictNode
+            } = testWithChart()
+            if (predictNode != null) {
+                var header = document.getElementById('headerText').value;
+                var arrHeader = header.split(",")
+                document.getElementById('prediction').innerText = arrHeader[arrHeader.length-1] + ": " + predictNode.value
+            } else {
+                document.getElementById('prediction').innerText = ""
+            }
+        });
+
+
+    </script>
+</body>
+</html>
