@@ -38,7 +38,7 @@
         ![Polynomial04](../img/usuario11.png)
         ![Polynomial05](../img/usuario12.png)
 
-    - **Decision tree:** Un árbol de decisión es un algoritmo de aprendizaje supervisado no paramétrico, que se utiliza tanto para tareas de clasificación como de regresión. Tiene una estructura jerárquica de árbol, que consta de un nodo raíz, ramas, nodos internos y nodos hoja. Para este ejemplo se necesita un archivo csv que incuya los encabezados de columna, para identificar facilmente los valores de las columnas.
+    - **Decision tree:** Un árbol de decisión es un algoritmo de aprendizaje supervisado no paramétrico, que se utiliza tanto para tareas de clasificación como de regresión. Tiene una estructura jerárquica de árbol, que consta de un nodo raíz, ramas, nodos internos y nodos hoja. Para este ejemplo se necesita un archivo csv que incuya los encabezados de columna, para identificar facilmente los valores de las columnas. En este ejemplo la última columna es la variable que se va a predecir.
     Los pasos a seguir son los siguientes:
         - 1. En la opción **Seleccione el algoritmo** seleccione Decesion tree. Se mostrará en pantalla la opción para cargar un archivo csv. Cuando ya haya cargado un archivo csv, puede seleccionar la opción de **Entrenar**.
         ![Decisionl01](../img/usuario13.png)
